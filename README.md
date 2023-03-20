@@ -1,5 +1,7 @@
 # Convert Chrome cookies to Netscape format
 
+>Note: In the Java version, pass the input cookie file as an argument, or just place the cookie file in the working directory and name it "chrome-cookies.txt"
+
 This is a very simple Node.js script to convert the cookies you can copy/paste from Chrome's Application -> Storage -> Cookies, into the [Netscape cookies format](https://curl.haxx.se/docs/http-cookies.html) accepted by tools like `curl` and `youtube-dl`.
 
 It's useful because you don't have to install any browser extension in order to save or convert the cookies. [Browser extensions are a known security risk.](https://www.howtogeek.com/188346/why-browser-extensions-can-be-dangerous-and-how-to-protect-yourself/)
