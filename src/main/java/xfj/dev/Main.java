@@ -8,13 +8,14 @@ import java.nio.file.StandardOpenOption;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String content = Files.readString(Path.of("chrome-cookies.txt"), StandardCharsets.UTF_8);
+        String inputPath = args.length == 1 ? args[0] : "chrome-cookies.txt";
+        String content = Files.readString(Path.of(inputPath), StandardCharsets.UTF_8);
         String[] cookies = content.split("\n");
 
         String header = String.format("# Netscape HTTP Cookie File%1$s# http://curl.haxx.se/rfc/cookie_spec.html%1$s# This is a generated file!  Do not edit.%1$s%1$s", System.lineSeparator());
-        Path outpath = Path.of("cookies.txt");
+        Path outputPath = Path.of("cookies.txt");
 
-        Files.writeString(outpath,
+        Files.writeString(outputPath,
                 header,
                 StandardCharsets.UTF_8,
                 StandardOpenOption.CREATE,
@@ -41,9 +42,14 @@ public class Main {
             httpOnly = httpOnly.equals("✓") ? "TRUE" : "FALSE";
             if (expiration.equals("Session")) {
                 expiration = "0";
+                /*
+                Deal with this later
+                expiration = new Date(Date.now() + 86400 * 1000);
+                expiration = Math.trunc(new Date(expiration).getTime() / 1000);
+                 */
             }
             String data = String.join("\t", domain, includeSubdomain, path, httpOnly, expiration, name, value) + System.lineSeparator();
-            Files.writeString(outpath,
+            Files.writeString(outputPath,
                     data,
                     StandardCharsets.UTF_8,
                     StandardOpenOption.APPEND);
