@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.Instant;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -42,11 +43,8 @@ public class Main {
             httpOnly = httpOnly.equals("✓") ? "TRUE" : "FALSE";
             if (expiration.equals("Session")) {
                 expiration = "0";
-                /*
-                Deal with this later
-                expiration = new Date(Date.now() + 86400 * 1000);
-                expiration = Math.trunc(new Date(expiration).getTime() / 1000);
-                 */
+            } else {
+                expiration = String.valueOf(Instant.parse(expiration).getEpochSecond());
             }
             String data = String.join("\t", domain, includeSubdomain, path, httpOnly, expiration, name, value) + System.lineSeparator();
             Files.writeString(outputPath,
